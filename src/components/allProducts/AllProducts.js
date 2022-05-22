@@ -32,7 +32,7 @@ const AllProducts = () => {
             {fetchData.map((item, index) => {
               return (
                 
-                  <div key={index} className="card border-0" style={{ width: "18rem" }}>
+                  <div key={index} className="card border-0 mb-5" style={{ width: "18rem" }}>
                     <img
                       src={item.image}
                       className="card-img-top img-fluid"

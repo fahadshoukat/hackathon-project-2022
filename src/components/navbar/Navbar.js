@@ -1,9 +1,12 @@
-import React from "react";
-import { BsCartDash } from "react-icons/bs";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { OrderContext } from "../context/ContextApi";
 import "./navbar.css";
+
 const Navbar = () => {
-    
+
+    // const {order} = useContext(OrderContext);
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -14,7 +17,7 @@ const Navbar = () => {
           <button type="button" class="btn btn-success position-relative">
             cart
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              2
+              {0}
               <span class="visually-hidden">unread messages</span>
             </span>
           </button>

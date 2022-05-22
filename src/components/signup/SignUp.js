@@ -189,9 +189,12 @@ const SignUp = () => {
                   required
                 />
               </div>
-              <div className="mb-3 text-center col-md-6 offset-md-3">
+              <div className="mb-5 text-center col-md-6 offset-md-3 d-flex justify-content-center gap-3">
               <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-                Submit
+                Sign Up
+              </button>
+              <button type="submit" className="btn btn-primary" onClick={() => navigate('/login')}>
+                Login
               </button>
               </div>
             </form>
