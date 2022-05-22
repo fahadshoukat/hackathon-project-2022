@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
   return (
     <div className="py-5">
       <div className="container">
@@ -17,6 +19,7 @@ const Login = () => {
                   class="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
+                  required
                 />
               </div>
               <div class="mb-3 col-md-6">
@@ -28,9 +31,10 @@ const Login = () => {
                   name="password"
                   class="form-control"
                   id="exampleInputPassword1"
+                  required
                 />
               </div>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" onClick={() => navigate('/addProduct')}>
                 Submit
               </button>
             </form>

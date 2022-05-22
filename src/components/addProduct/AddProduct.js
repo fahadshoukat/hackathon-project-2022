@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import {addDoc, collection} from 'firebase/firestore/lite'
 import { fireStore, storage } from "../../config/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({});
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
   
 
   const handleInputs = (e) => {
@@ -69,6 +71,7 @@ let formData = {...product, image: downloadURL}
                   className="form-control"
                   id="productName"
                   onChange={handleInputs}
+                  required
                 />
               </div>
               <div className="mb-3 col-md-6">
@@ -81,6 +84,7 @@ let formData = {...product, image: downloadURL}
                     id="category"
                     className="form-control"
                     onChange={handleInputs}
+                    required
                   >
                     <option value="" defaultValue>
                       Select category
@@ -101,6 +105,7 @@ let formData = {...product, image: downloadURL}
                   onChange={handleInputs}
                   className="form-control"
                   id="price"
+                  required
                 />
               </div>
               <div className="mb-3 col-md-6">
@@ -113,6 +118,7 @@ let formData = {...product, image: downloadURL}
                   name="totalProducts"
                   className="form-control"
                   id="totalProducts"
+                  required
                 />
               </div>
               <div className="mb-3 col-md-6">
@@ -125,6 +131,7 @@ let formData = {...product, image: downloadURL}
                   onChange={handleInputs}
                   className="form-control"
                   id="description"
+                  required
                 />
               </div>
               <div className="mb-3 col-md-6">
@@ -137,9 +144,10 @@ let formData = {...product, image: downloadURL}
                   onChange={(e) => setImage(e.target.files[0])}
                   className="form-control"
                   id="exampleInputCity1"
+                  required
                 />
               </div>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" onClick={() => navigate('/allProducts')}>
                 Add Product
               </button>
             </form>

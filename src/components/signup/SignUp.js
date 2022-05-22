@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { auth, fireStore } from "../../config/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore/lite";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [inputs, setInputs] = useState({});
+  const navigate = useNavigate();
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
@@ -63,9 +65,10 @@ const SignUp = () => {
     <div className="py-5">
       <div className="container">
         <div className="row">
-          <div className="col offset-md-4">
+          <div className="col">
             <form onSubmit={handleSubmit}>
-              <div className="mb-3 col-md-6">
+                <h1 className="text-center">Sign Up</h1>
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputName" className="form-label">
                   Name
                 </label>
@@ -75,9 +78,10 @@ const SignUp = () => {
                   className="form-control"
                   id="exampleInputName"
                   onChange={handleInputs}
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputEmail" className="form-label">
                   Email
                 </label>
@@ -88,9 +92,10 @@ const SignUp = () => {
                   className="form-control"
                   id="exampleInputEmail"
                   aria-describedby="emailHelp"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputPassword1" className="form-label">
                   Password
                 </label>
@@ -100,9 +105,10 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputPassword1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label
                   htmlFor="exampleInputConfirmPassword1"
                   className="form-label"
@@ -115,9 +121,10 @@ const SignUp = () => {
                   name="confirmPassword"
                   className="form-control"
                   id="exampleInputConfirmPassword1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputCountry1" className="form-label">
                   Country
                 </label>
@@ -127,9 +134,10 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputCountry1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputCity1" className="form-label">
                   City
                 </label>
@@ -139,9 +147,10 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputCity1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputState1" className="form-label">
                   State
                 </label>
@@ -151,9 +160,10 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputState1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputPCode1" className="form-label">
                   Postal Code
                 </label>
@@ -163,9 +173,10 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputPCode1"
+                  required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputMNumber1" className="form-label">
                   Mobile Number
                 </label>
@@ -175,11 +186,14 @@ const SignUp = () => {
                   onChange={handleInputs}
                   className="form-control"
                   id="exampleInputMNumber1"
+                  required
                 />
               </div>
-              <button type="submit" className="btn btn-primary">
+              <div className="mb-3 text-center col-md-6 offset-md-3">
+              <button type="submit" className="btn btn-primary" onClick={() => navigate('/')}>
                 Submit
               </button>
+              </div>
             </form>
           </div>
         </div>
