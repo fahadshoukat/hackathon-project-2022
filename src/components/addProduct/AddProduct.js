@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import {addDoc, collection} from 'firebase/firestore/lite'
-import { fireStore } from "../../config/firebase";
+import { fireStore, storage } from "../../config/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({});
+  const [image, setImage] = useState(null);
+  
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
@@ -11,21 +14,43 @@ const AddProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const addProduct = (e) => {
+  const uploadFile = (e) => {
       e.preventDefault();
-      addProductIntoFirestore();
+
+    if(!image) return;
+    const imagesRef = ref(storage, `images/${image.name}`);
+
+    const uploadTask = uploadBytesResumable(imagesRef, image);
+
+uploadTask.on('state_changed', (snapshot) => {
+    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    console.log('Upload is ' + progress + '% done');
+},
+(error) => {
+    console.log(error);
+  }, 
+  () => {
+    
+    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      console.log('File available at', downloadURL);
+      addProduct(downloadURL)
+    });
+  }
+)
+
+  }
+
+  const addProduct = async (downloadURL) => {
+
+let formData = {...product, image: downloadURL}
+
+    try {
+        const docRef = await addDoc(collection(fireStore, "products"), formData);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+          console.error("Error adding document: ", e);
+      }
   };
-
-  const addProductIntoFirestore = async () => {
-
-      try {
-          const docRef = await addDoc(collection(fireStore, "products"), product);
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-            console.error("Error adding document: ", e);
-        }
-    }
-
 
 
   return (
@@ -33,7 +58,7 @@ const AddProduct = () => {
       <div className="container">
         <div className="row">
           <div className="col offset-md-4">
-            <form onSubmit={addProduct}>
+            <form onSubmit={uploadFile}>
               <div className="mb-3 col-md-6">
                 <label htmlFor="productName" className="form-label">
                   Product Title
@@ -83,7 +108,7 @@ const AddProduct = () => {
                   Total Products
                 </label>
                 <input
-                  type="password"
+                  type="number"
                   onChange={handleInputs}
                   name="totalProducts"
                   className="form-control"
@@ -108,8 +133,8 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="file"
-                  name="city"
-                  onChange={handleInputs}
+                  name="image"
+                  onChange={(e) => setImage(e.target.files[0])}
                   className="form-control"
                   id="exampleInputCity1"
                 />
