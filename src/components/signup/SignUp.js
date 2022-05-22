@@ -66,7 +66,7 @@ const SignUp = () => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <form onSubmit={handleSubmit}>
+            <form>
                 <h1 className="text-center">Sign Up</h1>
               <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputName" className="form-label">
@@ -190,7 +190,7 @@ const SignUp = () => {
                 />
               </div>
               <div className="mb-3 text-center col-md-6 offset-md-3">
-              <button type="submit" className="btn btn-primary" onClick={() => navigate('/')}>
+              <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
                 Submit
               </button>
               </div>

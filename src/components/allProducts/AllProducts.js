@@ -29,10 +29,10 @@ const AllProducts = () => {
           <div className="col">
               <h1 className="text-center">Featured Products</h1>
           <div className="row row-cols-1 row-cols-md-3 g-4 mt-5 mx-auto">
-            {fetchData.map((item) => {
+            {fetchData.map((item, index) => {
               return (
                 
-                  <div className="card border-0" style={{ width: "18rem" }}>
+                  <div key={index} className="card border-0" style={{ width: "18rem" }}>
                     <img
                       src={item.image}
                       className="card-img-top img-fluid"
