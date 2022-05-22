@@ -1,5 +1,6 @@
 import React from "react";
 import {BsCartDash} from 'react-icons/bs';
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav className="navbar navbar-light bg-primary">
@@ -8,7 +9,7 @@ const Navbar = () => {
         <div>
           <BsCartDash className="mx-4 text-light" fontSize='32px' />
           <button className="btn btn-light" type="button">
-            Login
+            <Link to='/login' >Login</Link>
           </button>
         </div>
       </div>
