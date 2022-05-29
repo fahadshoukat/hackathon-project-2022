@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { fireStore } from "../../config/firebase";
+import { OrderContext } from "../context/OrderContext";
 
 const AllProducts = () => {
+
+  const { setOrder } = useContext(OrderContext);
   const [fetchData, setFetchData] = useState([]);
   const navigate = useNavigate();
 
@@ -22,6 +25,13 @@ const AllProducts = () => {
   };
 
   console.log(fetchData);
+
+const handleOrder = () => {
+  navigate('/signup');
+  setOrder(prevState => prevState + 1);
+}
+
+
   return (
     <div className="py-3">
       <div className="container">
@@ -42,7 +52,7 @@ const AllProducts = () => {
                       <p className="card-text">{item.name}</p>
                       <p className="card-text">{item.price}</p>
                       <div className="d-grid">
-                        <button className="btn btn-success" onClick={() => navigate('/signup')}>Add To Cart</button>
+                        <button className="btn btn-success" onClick={handleOrder}>Add To Cart</button>
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {addDoc, collection} from 'firebase/firestore/lite'
+import { addDoc, collection } from "firebase/firestore/lite";
 import { fireStore, storage } from "../../config/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ const AddProduct = () => {
   const [product, setProduct] = useState({});
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
-  
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
@@ -17,43 +16,43 @@ const AddProduct = () => {
   };
 
   const uploadFile = (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-    if(!image) return;
+    if (!image) return;
     const imagesRef = ref(storage, `images/${image.name}`);
 
     const uploadTask = uploadBytesResumable(imagesRef, image);
 
-uploadTask.on('state_changed', (snapshot) => {
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-},
-(error) => {
-    console.log(error);
-  }, 
-  () => {
-    
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log('File available at', downloadURL);
-      addProduct(downloadURL)
-    });
-  }
-)
-
-  }
-
-  const addProduct = async (downloadURL) => {
-
-let formData = {...product, image: downloadURL}
-
-    try {
-        const docRef = await addDoc(collection(fireStore, "products"), formData);
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-          console.error("Error adding document: ", e);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          addProduct(downloadURL);
+        });
       }
+    );
   };
 
+  const addProduct = async (downloadURL) => {
+    let formData = { ...product, image: downloadURL };
+
+    try {
+      const docRef = await addDoc(collection(fireStore, "products"), formData);
+      console.log("Document written with ID: ", docRef.id);
+      navigate("/allProducts")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
     <div className="py-5">
@@ -147,7 +146,11 @@ let formData = {...product, image: downloadURL}
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary" onClick={() => navigate('/allProducts')}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                // onClick={() => navigate("/allProducts")}
+              >
                 Add Product
               </button>
             </form>

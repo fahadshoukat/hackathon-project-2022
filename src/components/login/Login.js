@@ -41,7 +41,6 @@ const Login = () => {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         alert('User not found')
         console.log(errorMessage);
@@ -54,29 +53,29 @@ const Login = () => {
         <div className="row">
           <div className="col offset-md-4">
             <form onSubmit={handleLogin}  >
-              <div class="mb-3 col-md-6">
-                <label for="exampleInputEmail1" class="form-label">
+              <div className="mb-3 col-md-6">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Email address
                 </label>
                 <input
                   type="email"
                   name="email"
                   onChange={handleInputs}
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   required
                 />
               </div>
-              <div class="mb-3 col-md-6">
-                <label for="exampleInputPassword1" class="form-label">
+              <div className="mb-3 col-md-6">
+                <label htmlFor="exampleInputPassword1" className="form-label">
                   Password
                 </label>
                 <input
                   type="password"
                   name="password"
                   onChange={handleInputs}
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputPassword1"
                   required
                 />
@@ -84,7 +83,7 @@ const Login = () => {
               <div className="d-flex gap-3 justify-space-evenly ">
               <button
                 type="submit"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 onClick={() => navigate('/login')}
               >
                 Login

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { OrderContext } from "../context/ContextApi";
+import { OrderContext } from "../context/OrderContext";
 import "./navbar.css";
 
 const Navbar = () => {
 
-    // const {order} = useContext(OrderContext);
+  const { order } = useContext(OrderContext);
+
 
   return (
     <nav className="navbar navbar-light">
@@ -14,11 +15,11 @@ const Navbar = () => {
           Try Basket
         </Link>
         <div className="d-flex gap-3">
-          <button type="button" class="btn btn-success position-relative">
+          <button type="button" className="btn btn-success position-relative">
             cart
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {0}
-              <span class="visually-hidden">unread messages</span>
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              { order }
+              <span className="visually-hidden">unread messages</span>
             </span>
           </button>
           <button className="btn btn-light" type="button">
