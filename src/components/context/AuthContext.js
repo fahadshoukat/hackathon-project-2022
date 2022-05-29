@@ -1,15 +1,35 @@
-import React, { useState, createContext } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, createContext, useEffect } from "react";
+import {auth} from '../../config/firebase'
 
-export const OrderContext = createContext();
+export const AuthContext = createContext();
 
-const OrderContextProvider = ({ children }) => {
-  const [order, setOrder] = useState(0);
+const AuthContextProvider = ({ children }) => {
+
+  const [user, setUser] = useState("");
+
+  function signUp(email, password){
+    return createUserWithEmailAndPassword(auth, email, password)
+  }
+
+  function Login(email, password){
+    return signInWithEmailAndPassword(auth, email, password)
+  }
+
+  useEffect(()=> {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+    return () => {
+      unsubscribe();
+    }
+  },[])
 
   return (
-    <OrderContext.Provider value={ { order, setOrder } }>
+    <AuthContext.Provider value={{user, signUp, Login}}>
       { children }
-    </OrderContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export default OrderContextProvider
+export default AuthContextProvider;

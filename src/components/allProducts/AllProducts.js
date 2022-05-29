@@ -27,7 +27,6 @@ const AllProducts = () => {
   console.log(fetchData);
 
 const handleOrder = () => {
-  navigate('/signup');
   setOrder(prevState => prevState + 1);
 }
 
