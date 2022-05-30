@@ -59,7 +59,7 @@ const AddProduct = () => {
       <div className="container">
         <div className="row">
           <div className="col offset-md-4">
-            <form onSubmit={uploadFile}>
+            <form onSubmit={ uploadFile }>
               <div className="mb-3 col-md-6">
                 <label htmlFor="productName" className="form-label">
                   Product Title
@@ -69,7 +69,7 @@ const AddProduct = () => {
                   name="name"
                   className="form-control"
                   id="productName"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   required
                 />
               </div>
@@ -82,7 +82,7 @@ const AddProduct = () => {
                     name="category"
                     id="category"
                     className="form-control"
-                    onChange={handleInputs}
+                    onChange={ handleInputs }
                     required
                   >
                     <option value="" defaultValue>
@@ -101,7 +101,7 @@ const AddProduct = () => {
                 <input
                   type="number"
                   name="price"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="price"
                   required
@@ -113,7 +113,7 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   name="totalProducts"
                   className="form-control"
                   id="totalProducts"
@@ -127,7 +127,7 @@ const AddProduct = () => {
                 <input
                   type="text"
                   name="description"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="description"
                   required
@@ -140,7 +140,7 @@ const AddProduct = () => {
                 <input
                   type="file"
                   name="image"
-                  onChange={(e) => setImage(e.target.files[0])}
+                  onChange={ (e) => setImage(e.target.files[0]) }
                   className="form-control"
                   id="exampleInputCity1"
                   required
@@ -149,7 +149,7 @@ const AddProduct = () => {
               <button
                 type="submit"
                 className="btn btn-primary"
-                // onClick={() => navigate("/allProducts")}
+              // onClick={() => navigate("/allProducts")}
               >
                 Add Product
               </button>

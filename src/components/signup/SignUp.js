@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { auth, fireStore } from "../../config/firebase";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore/lite";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useContext, useState } from "react";
+import { fireStore } from "../../config/firebase";
+import { setDoc, serverTimestamp, doc } from "firebase/firestore/lite";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const SignUp = () => {
+  const { signUp, setUser } = useContext(AuthContext);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
 
@@ -14,27 +15,18 @@ const SignUp = () => {
     setInputs({ ...inputs, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        addUserIntoFireStore(user);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ..
-      });
+    try {
+      const signUpUser = await signUp(inputs.email, inputs.password)
+      addUserIntoFireStore(signUpUser.user)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addUserIntoFireStore = async (user) => {
-    console.log("user add firestore func", user);
 
     const { name, email, state, country, postalCode, city, mobileNumber } =
       inputs;
@@ -48,12 +40,12 @@ const SignUp = () => {
       city,
       mobileNumber,
     };
-    formData.uid = user.uid;
     formData.dateCreated = serverTimestamp()
 
     try {
-     
-      await setDoc(doc(fireStore, "users", user.uid), formData);
+
+      setUser(await setDoc(doc(fireStore, "users", user.uid), formData));
+      console.log("add user into firestore");
 
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -61,13 +53,14 @@ const SignUp = () => {
 
   };
 
+
   return (
     <div className="py-5">
       <div className="container">
         <div className="row">
           <div className="col">
             <form>
-                <h1 className="text-center">Sign Up</h1>
+              <h1 className="text-center">Sign Up</h1>
               <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputName" className="form-label">
                   Name
@@ -77,7 +70,7 @@ const SignUp = () => {
                   name="name"
                   className="form-control"
                   id="exampleInputName"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   required
                 />
               </div>
@@ -88,7 +81,7 @@ const SignUp = () => {
                 <input
                   type="email"
                   name="email"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputEmail"
                   aria-describedby="emailHelp"
@@ -102,7 +95,7 @@ const SignUp = () => {
                 <input
                   type="password"
                   name="password"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputPassword1"
                   required
@@ -117,7 +110,7 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   name="confirmPassword"
                   className="form-control"
                   id="exampleInputConfirmPassword1"
@@ -131,7 +124,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="country"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputCountry1"
                   required
@@ -144,7 +137,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="city"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputCity1"
                   required
@@ -157,7 +150,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="state"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputState1"
                   required
@@ -170,7 +163,7 @@ const SignUp = () => {
                 <input
                   type="number"
                   name="postalCode"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputPCode1"
                   required
@@ -183,21 +176,24 @@ const SignUp = () => {
                 <input
                   type="number"
                   name="mobileNumber"
-                  onChange={handleInputs}
+                  onChange={ handleInputs }
                   className="form-control"
                   id="exampleInputMNumber1"
                   required
                 />
               </div>
               <div className="mb-5 text-center col-md-6 offset-md-3 d-flex justify-content-center gap-3">
-              <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-                Sign Up
-              </button>
-              <button type="submit" className="btn btn-primary" onClick={() => navigate('/login')}>
-                Login
-              </button>
+                <button type="submit" className="btn btn-primary" onClick={ handleSubmit }>
+                  Sign Up
+                </button>
               </div>
             </form>
+            <div className="text-center col-md-6 offset-md-3">
+              <p>Already have an account?</p>
+              <button type="submit" className="btn btn-primary" onClick={ () => navigate('/login') }>
+                Login
+              </button>
+            </div>
           </div>
         </div>
       </div>

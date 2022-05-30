@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { fireStore } from "../../config/firebase";
 import { OrderContext } from "../context/OrderContext";
@@ -8,7 +8,7 @@ const AllProducts = () => {
 
   const { setOrder } = useContext(OrderContext);
   const [fetchData, setFetchData] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();

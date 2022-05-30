@@ -6,13 +6,13 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
 
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState([]);
 
   function signUp(email, password){
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
-  function Login(email, password){
+  function login(email, password){
     return signInWithEmailAndPassword(auth, email, password)
   }
 
@@ -26,7 +26,7 @@ const AuthContextProvider = ({ children }) => {
   },[])
 
   return (
-    <AuthContext.Provider value={{user, signUp, Login}}>
+    <AuthContext.Provider value={{setUser, signUp, login, user}}>
       { children }
     </AuthContext.Provider>
   );

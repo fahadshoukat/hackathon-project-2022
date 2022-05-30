@@ -5,15 +5,16 @@ import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
 import AddProduct from "./components/addProduct/AddProduct";
 import AllProducts from "./components/allProducts/AllProducts";
-import Footer from "./components/footer/Footer";
 import NoRoute from "./components/noRoute/NoRoute";
 import Home from "./components/home/Home";
 
 // Context
 import OrderContextProvider from "./components/context/OrderContext";
+import AuthContextProvider from "./components/context/AuthContext";
 
 function App() {
   return (
+    <AuthContextProvider>
     <OrderContextProvider>
       <BrowserRouter>
         <Navbar />
@@ -25,9 +26,9 @@ function App() {
           <Route path="allProducts" element={ <AllProducts /> } />
           <Route path="*" element={ <NoRoute /> } />
         </Routes>
-        <Footer />
       </BrowserRouter>
     </OrderContextProvider>
+    </AuthContextProvider>
   );
 }
 

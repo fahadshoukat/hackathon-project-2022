@@ -1,100 +1,75 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import Footer from "../footer/Footer"
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [inputs, setInputs] = useState({
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  });
-
-  const handleInputs = (e) => {
-    const { name, value } = e.target;
-
-    setInputs ( (s)=>({ ...s, [name]: value }) );
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-
-    signInWithEmailAndPassword(auth, inputs.email, inputs.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        navigate('/addProduct')
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        alert('User not found')
-        console.log(errorMessage);
-      });
+    try {
+      await login(email, password)
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
+    <>
     <div className="py-5">
       <div className="container">
         <div className="row">
-          <div className="col offset-md-4">
-            <form onSubmit={handleLogin}  >
-              <div className="mb-3 col-md-6">
+          <div className="col">
+            <form onSubmit={ handleLogin }  >
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   Email address
                 </label>
                 <input
                   type="email"
                   name="email"
-                  onChange={handleInputs}
+                  onChange={ (e) => setEmail(e.target.value) }
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   required
                 />
               </div>
-              <div className="mb-3 col-md-6">
+              <div className="mb-3 col-md-6 offset-md-3">
                 <label htmlFor="exampleInputPassword1" className="form-label">
                   Password
                 </label>
                 <input
                   type="password"
                   name="password"
-                  onChange={handleInputs}
+                  onChange={ (e) => setPassword(e.target.value) }
                   className="form-control"
                   id="exampleInputPassword1"
                   required
                 />
               </div>
-              <div className="d-flex gap-3 justify-space-evenly ">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={() => navigate('/login')}
-              >
-                Login
-              </button>
-              <button className="btn btn-success" onClick={()=> navigate('/signup')}>SignUp</button>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="btn btn-primary">
+                  Login
+                </button>
               </div>
             </form>
+            <div className="mt-4 text-center col-md-6 offset-md-3">
+              <p>Don't have account?</p>
+              <button className="btn btn-success" onClick={ () => navigate('/signup') }>SignUp</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
