@@ -7,27 +7,33 @@ import AddProduct from "./components/addProduct/AddProduct";
 import AllProducts from "./components/allProducts/AllProducts";
 import NoRoute from "./components/noRoute/NoRoute";
 import Home from "./components/home/Home";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import CartProducts from "./components/cartProducts/CartProducts";
 
 // Context
 import OrderContextProvider from "./components/context/OrderContext";
 import AuthContextProvider from "./components/context/AuthContext";
+import ProductsContextProvider from "./components/context/ProductsContext";
 
 function App() {
   return (
     <AuthContextProvider>
-    <OrderContextProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={ <Home /> } />
-          <Route path="signup" element={ <SignUp /> } />
-          <Route path="login" element={ <Login /> } />
-          <Route path="addProduct" element={ <AddProduct /> } />
-          <Route path="allProducts" element={ <AllProducts /> } />
-          <Route path="*" element={ <NoRoute /> } />
-        </Routes>
-      </BrowserRouter>
-    </OrderContextProvider>
+      <ProductsContextProvider>
+        <OrderContextProvider>
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route exact path="/" element={ <Home /> } />
+              <Route path="signup" element={ <SignUp /> } />
+              <Route path="login" element={ <Login /> } />
+              <Route path="addProduct" element={ <ProtectedRoute><AddProduct /></ProtectedRoute> } />
+              <Route path="allProducts" element={ <AllProducts /> } />
+              <Route path="cartProducts" element={ <CartProducts /> } />
+              <Route path="*" element={ <NoRoute /> } />
+            </Routes>
+          </BrowserRouter>
+        </OrderContextProvider>
+      </ProductsContextProvider>
     </AuthContextProvider>
   );
 }

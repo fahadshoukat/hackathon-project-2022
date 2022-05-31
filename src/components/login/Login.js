@@ -13,11 +13,11 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password)
+      navigate('/home')
     } catch (error) {
       console.log(error.message);
     }
   };
-
   return (
     <>
     <div className="py-5">

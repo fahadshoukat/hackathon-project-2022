@@ -11,18 +11,14 @@ const AddProduct = () => {
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
-
     setProduct({ ...product, [name]: value });
   };
 
   const uploadFile = (e) => {
     e.preventDefault();
-
     if (!image) return;
     const imagesRef = ref(storage, `images/${image.name}`);
-
     const uploadTask = uploadBytesResumable(imagesRef, image);
-
     uploadTask.on(
       "state_changed",
       (snapshot) => {

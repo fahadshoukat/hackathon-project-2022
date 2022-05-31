@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { OrderContext } from "../context/OrderContext";
 import "./navbar.css";
 
 const Navbar = () => {
-
   const { order } = useContext(OrderContext);
-
-
+  const navigate = useNavigate();
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -15,7 +13,7 @@ const Navbar = () => {
           Try Basket
         </Link>
         <div className="d-flex gap-3">
-          <button type="button" className="btn btn-success position-relative">
+          <button onClick={() => navigate('/cartProducts')} type="button" className="btn btn-success position-relative fw-bold">
             cart
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               { order }
@@ -23,7 +21,7 @@ const Navbar = () => {
             </span>
           </button>
           <button className="btn btn-light" type="button">
-            <Link to="/login">Login</Link>
+            <Link className="text-decoration-none fw-bold" to="/login">Login</Link>
           </button>
         </div>
       </div>
