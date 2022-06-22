@@ -4,14 +4,23 @@ import { doc, getDoc } from "firebase/firestore/lite";
 import { OrderContext } from '../context/OrderContext';
 
 const CartProducts = () => {
-  const { orderId } = useContext(OrderContext)
+  const { orderId, setOrder, order } = useContext(OrderContext)
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     function getProduct() {
       setOrders([...orderId])
     }
     getProduct();
-  }, [orderId])
+  }, [orderId]);
+
+  const deleteCartProduct = (deleteId) => {
+    setOrders(orders.filter((order) => {
+      return order.id != deleteId;
+    }))
+    setOrder(order - 1)
+  }
+
+
   return (
     orders.length > 0 ? <div>
       <div className="container-fluid">
@@ -31,7 +40,7 @@ const CartProducts = () => {
                       <p className="card-text">{ order.name }</p>
                       <p className="card-text">{ order.price }</p>
                       <div className="d-grid">
-                        <button className="btn btn-danger">Delete</button>
+                        <button className="btn btn-danger" onClick={ () => deleteCartProduct(order.id) }>Delete</button>
                       </div>
                     </div>
                   </div>
