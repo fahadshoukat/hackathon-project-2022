@@ -1,28 +1,48 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { fireStore } from "../../config/firebase";
-import { collection, doc, getDocs } from "firebase/firestore/lite";
-import { ProductsContext } from '../context/ProductsContext';
+import { doc, getDoc } from "firebase/firestore/lite";
+import { OrderContext } from '../context/OrderContext';
 
 const CartProducts = () => {
-  const {products, setProducts} = useContext(ProductsContext);
+  const { orderId } = useContext(OrderContext)
+  const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const getProducts = async () => {
-        const data = await getDocs(collection(fireStore, "products"));
-       setProducts(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
+    function getProduct() {
+      setOrders([...orderId])
     }
-    getProducts();
-}, [])
+    getProduct();
+  }, [orderId])
   return (
-    <div>
-      <h1>Cart Products</h1>
-      {products.map((product) => {
-        return <div>
-          <h6>{product.id}</h6>
-          <h6>{product.name}</h6>
+    orders.length > 0 ? <div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col">
+            <h1 className='text-center'>Cart Products</h1>
+            <div className="row row-cols-1 row-cols-md-3 g-4 mt-5 mx-5">
+              { orders.map((order, index) => {
+                return (
+                  <div key={ index } className="card border-0 mb-5" style={ { width: "18rem" } }>
+                    <img
+                      src={ order.image }
+                      className="card-img-top img-fluid"
+                      alt="image"
+                    />
+                    <div className="card-body">
+                      <p className="card-text">{ order.name }</p>
+                      <p className="card-text">{ order.price }</p>
+                      <div className="d-grid">
+                        <button className="btn btn-danger">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }) }
+            </div>
           </div>
-      })}
-    </div>
+        </div>
+      </div>
+    </div> : <h1>No Products in cart</h1>
   )
 }
 
-export default CartProducts
+export default CartProducts;

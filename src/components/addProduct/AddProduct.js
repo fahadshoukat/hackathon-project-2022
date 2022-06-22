@@ -39,7 +39,7 @@ const AddProduct = () => {
   };
 
   const addProduct = async (downloadURL) => {
-    let formData = { ...product, image: downloadURL };
+    let formData = { ...product, image: downloadURL};
 
     try {
       const docRef = await addDoc(collection(fireStore, "products"), formData);
